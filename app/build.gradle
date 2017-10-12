@@ -1,10 +1,23 @@
 apply plugin: 'com.android.application'
-
 apply plugin: 'kotlin-android'
-
 apply plugin: 'kotlin-android-extensions'
 
+project.ext {
+    supportLibraryVersion = "26.1.0"
+    daggerVersion = "2.4"
+    rxKotlinVersion = "2.1.0"
+    rxjavaVersion = "2.1.3"
+    rxAndroidVersion = "2.0.1"
+    timberVersion = "4.5.1"
+    architectureComponentsVersion = "1.0.0-alpha9-1"
+}
+
 android {
+
+    kapt {
+        generateStubs = true
+    }
+
     compileSdkVersion 26
     buildToolsVersion "26.0.2"
     defaultConfig {
@@ -26,17 +39,30 @@ android {
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
 
-    //Suppor libraries
-    implementation 'com.android.support:cardview-v7:26.1.0'
-    implementation 'com.android.support:recyclerview-v7:26.1.0'
-    implementation 'com.android.support:appcompat-v7:26.1.0'
+    //Support libraries
+    implementation "com.android.support:cardview-v7:$project.supportLibraryVersion"
+    implementation "com.android.support:recyclerview-v7:$project.supportLibraryVersion"
+    implementation "com.android.support:appcompat-v7:$project.supportLibraryVersion"
     implementation 'com.android.support.constraint:constraint-layout:1.0.2'
 
     // Lifecycles, LiveData, and ViewModel
-    implementation "android.arch.lifecycle:extensions:1.0.0-beta2"
-    annotationProcessor "android.arch.lifecycle:compiler:1.0.0-beta2"
-    implementation "android.arch.persistence.room:runtime:1.0.0-beta2"
-    annotationProcessor "android.arch.persistence.room:compiler:1.0.0-beta2"
+    compile  "android.arch.lifecycle:runtime:1.0.0"
+    implementation "android.arch.lifecycle:extensions:$project.architectureComponentsVersion"
+    kapt "android.arch.lifecycle:compiler:$project.architectureComponentsVersion"
+    implementation "android.arch.persistence.room:runtime:$project.architectureComponentsVersion"
+    implementation "android.arch.persistence.room:rxjava2:$project.architectureComponentsVersion"
+    kapt "android.arch.persistence.room:compiler:$project.architectureComponentsVersion"
+    annotationProcessor "android.arch.persistence.room:compiler:$project.architectureComponentsVersion"
+
+    // ReactiveX
+    compile "io.reactivex.rxjava2:rxkotlin:$project.rxKotlinVersion"
+    compile "io.reactivex.rxjava2:rxandroid:$project.rxAndroidVersion"
+    compile "io.reactivex.rxjava2:rxjava:$project.rxjavaVersion"
+
+    // Dagger 2
+    compile "com.google.dagger:dagger:$project.daggerVersion"
+    kapt "com.google.dagger:dagger-compiler:$project.daggerVersion"
+    provided 'org.glassfish:javax.annotation:10.0-b28'
 
     testImplementation 'junit:junit:4.12'
     androidTestImplementation('com.android.support.test.espresso:espresso-core:3.0.1', {

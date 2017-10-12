@@ -1,4 +1,4 @@
-package ru.mail.aslanisl.pocketbookkeeping.db.entity
+package ru.mail.aslanisl.pocketbookkeeping.db.Expenditure
 
 import android.arch.persistence.room.ColumnInfo
 import android.arch.persistence.room.Entity
@@ -8,8 +8,10 @@ import java.util.*
 
 @Entity(tableName = "expenditures")
 data class ExpenditureEntity(
-        @PrimaryKey(autoGenerate = true)
-        val id: Long,
-        var price: Int,
-        var time: Long
+        @PrimaryKey()
+        var id: Long? = null,
+        @ColumnInfo(name = "price")
+        var price: Int = 0,
+        @ColumnInfo(name = "time")
+        var time: Long = 0
 )
